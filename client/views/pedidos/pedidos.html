@@ -1,0 +1,13 @@
+<template name="pedidos">
+   <h1><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> PEDIDOS <b>CLIENTES</b> <small></small></h1>
+    
+{{> reactiveTable id="tabla" settings=settings}}
+
+</template>
+<template name="accionesPedidos">
+  <div class="acciones" style="display:none">
+  <button title="Vender" type="button" id="vender" class="btn  btn-xs btn-primary" aria-label="Left Align">  <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> </button>
+   <button title="Quitar" type="button" id="delete" class="btn  btn-xs btn-danger" aria-label="Left Align">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
+      
+  </div>
+</template>

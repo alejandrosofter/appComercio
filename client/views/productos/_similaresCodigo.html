@@ -1,0 +1,14 @@
+<template name="_similaresCodigo">
+<div class='col-md-4'>
+      <h4><span class="subTitulo glyphicon glyphicon-search" aria-hidden="true"> SIMILARES</span>  <small>por codigo</small></h4>
+      <table id="tablaSimilares" class="table table-condensed">
+        <thead><tr><th>Producto</th><th>Cod.</th><th>Disp.</th><th>$ Venta</th></tr></thead>
+        <tbody>
+        {{#each producto in productos}}
+          <tr idProducto="{{producto._id}}"><td class="nombreProducto">{{producto.nombreProducto}}</td><td class="codigoInterno">{{producto.codigoInterno}}</td><td>{{producto.disponibilidad}}</td><td>{{producto.precioVenta}}</td></tr> 
+        {{/each}}
+          </tbody>
+      </table>
+
+</div>
+</template>

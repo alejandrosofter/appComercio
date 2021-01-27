@@ -1,0 +1,69 @@
+<template name="nuevoPagoVario">
+     <div id="nuevoPagoVarioModal" class="modal fade"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+       <div class="modal-header"> 
+                    <h1><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> NUEVO <small>PAGO</small>  </h1>
+                </div>
+                <div class="modal-body">
+                
+   
+
+{{#autoForm collection=coleccion id=idInsert doc=this.datos scope="pagos" type="update-pushArray"}}
+{{> afQuickField id="fecha"  name='fecha'}}
+{{> afQuickField   name='idCuenta'}}
+{{> afQuickField   name='importe'}}
+{{> afQuickField   name='interes'}}
+            <button type="submit" disabled="{{disableButtons}}" id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+            
+{{/autoForm}}
+                </div>
+
+    </div>
+  </div>
+</div>
+  
+</template>
+<template name="nuevoPago">
+  <div id="nuevoPagoModal" class="modal fade"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+       <div class="modal-header"> 
+                    <h1><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> ASISTENTE <small>PAGO</small>  </h1>
+                </div>
+                <div class="modal-body">
+                <h4><b>QUIEN</b> PAGA?</h4>
+                <select id="idEntidad" placeholder="Pagador"></select>
+   
+
+            <button type="submit" disabled="{{disableButtons}}" id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+            
+
+                </div>
+
+    </div>
+  </div>
+</div>
+  
+</template>
+
+<template name="pagosVarios">
+    <div id="listadoPagoModal" class="modal fade"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+       <div class="modal-header">
+                    <h1><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> LISTADO <small>PAGO/s</small> </h1>
+                </div>
+                <div class="modal-body">
+                    {{> reactiveTable id="tablaPagosVarios" settings=settings}}
+                </div>
+
+    </div>
+  </div>
+</div>
+  
+</template>
+<template name="accionesPagosVarios">
+  <button title="Quitar" type="button" class="delete btn  btn-xs btn-danger" aria-label="Left Align">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
+ 
+</template>

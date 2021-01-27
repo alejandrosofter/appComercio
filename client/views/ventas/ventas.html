@@ -1,0 +1,121 @@
+<template name="ventas">
+   <h1><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> VENTAS <small></small></h1>
+{{> reactiveTable id="tablaVentas" settings=settings}}
+
+</template>
+<template name="imprimirFactura">
+    <div id="modalItems" class="modal fade bs-example-modal" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal" role="document">
+    <div class="modal-content">
+       
+                <div class="modal-body">
+               {{fechaVto}}
+                  {{nroCae}}
+                  {{razonSocial}}
+                  {{tipoComprobante}}
+                  $ {{importe}}
+                </div>
+
+    </div>
+  </div>
+</div>
+</template>
+<template name="facturar">
+   <div class="col-md-8">
+   <h1><span class="glyphicon glyphicon-shopping-lock" aria-hidden="true"></span> FACTURAR <small>Afip</small>
+
+   </h1>
+
+ {{#autoForm  collection="Ventas" id="facturar_" doc=this scope="facturaElectronica" type="update-pushArray"}}
+<div class="row">
+  <div class="col-md-2">{{> afQuickField id='puntoVenta' style="width:120px;" name='puntoVenta' }}</div>
+  <div class="col-md-3">{{> afQuickField  id='tipoComprobante' name='tipoComprobante' style="" }}</div>
+  <div class="col-md-6">{{> afQuickField  id='concepto' name='concepto' }}</div>
+</div>
+<div class="row">
+  
+  <div class="col-md-2">{{> afQuickField  id='tipoDoc' name='tipoDoc' }}</div>
+   <div class="col-md-3">  {{> afQuickField name='nroDoc' id='nroDoc' style="width:200px;" }}</div>
+</div>
+<div class="row">
+  
+  <div class="col-md-5">{{> afQuickField name='razonSocial' id='razonSocial' style="width:300px;" }}</div>
+   <div class="col-md-3">  {{> afQuickField name='domicilio' id='domicilio' style="width:400px;" }}</div>
+</div>
+  
+  
+  
+  
+
+  
+ 
+  {{> afQuickField type='hidden' id='nroCae' name='nroCae'  }}
+    {{> afQuickField type='hidden' id='nroFactura' name='nroFactura'  }}
+  {{> afQuickField type='hidden' id='fechaVto' name='fechaVto'  }}
+                         
+                          <div style="float:right"><h2>$ {{importe}}</h2></div>
+                       
+{{/autoForm}}
+
+   <button type="submit" disabled="{{disableButtons}}" id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+</div>
+</template>
+<template name="verItems">
+    <div id="modalItems" class="modal fade bs-example-modal" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+                    <h4 class="modal-title"><b>ITEMS</b> de la venta... </h4>
+                </div>
+                <div class="modal-body">
+                 {{> reactiveTable id="tablaVentasItems" settings=settingsItems}}
+                 
+                </div>
+
+    </div>
+  </div>
+</div>
+</template>
+<template name="enviarEmailVenta">
+    <div id="modalMailVenta" class="modal fade bs-example-modal" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+                    <h4 class="modal-title"><b><span class="glyphicon glyphicon-send" aria-hidden="true"></span> ENVIAR MAIL</b> de la venta... </h4>
+                </div>
+                <div class="modal-body">
+                 <input type="text" class="form-control" value="{{emailCliente}}" style="width:400px" id="emailClienteVenta" placeholder="emailcliente@gmail.com ej.">
+                  <a class="btn btn-success" id="btnEnviarMail"><b><span class="glyphicon glyphicon-send" aria-hidden="true"></span> ENVIAR</b> MAIL</a>
+                </div>
+
+    </div>
+  </div>
+</div>
+</template>
+<template name="accionesVentas">
+  <div class="acciones" style="display:none">
+    {{#if esElectronica}}
+    <button title="Imprimir" type="button" class="imprimeAfip btn  btn-xs btn-success" aria-label="Left Align">  <span class="glyphicon glyphicon-print" aria-hidden="true"></span> </button>
+    {{else}}
+     
+  
+      <button title="Hacer Factura AFIP" type="button" class="facturar btn  btn-xs btn-warning" aria-label="Left Align">  <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> </button>
+  
+    {{/if}}
+    <button title="Enviar Mail" type="button" class="enviarMail btn  btn-xs btn-success" aria-label="Left Align">  <span class="glyphicon glyphicon-send" aria-hidden="true"></span> </button>
+     <div class="btn-group">
+  <button title="Pagos" type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{#if tienePagos}} <span class="label label-primary">{{cantidadPagos}}</span>{{/if}}
+<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#" class="pagos">Listado Pagos</a></li>
+    <li><a href="#" class="nuevoPagoVario">Nuevo Pago</a></li>
+  </ul>
+</div>
+      <button title="Ver Items" type="button" class="verItems btn  btn-xs btn-primary" aria-label="Left Align">  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> </button>
+ <!-- 
+  <button title="Editar" type="button" class="update btn  btn-xs btn-primary" aria-label="Left Align">  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </button> -->
+    <button title="Quitar" type="button" class="delete btn  btn-xs btn-danger" aria-label="Left Align">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
+  </div>
+</template>

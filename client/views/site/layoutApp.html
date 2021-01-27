@@ -1,0 +1,195 @@
+<template name="layoutAppPublico">
+<div class="">
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <p class="navbar-text"><h4><b> {{nombreEmpresa}}</b></h4></p> | 
+     
+    </div>
+
+     <ul style="padding-top: 20px;padding-right: 20px;" class="nav navbar-nav navbar-right">
+       
+        <li class="dropdown">
+          
+         <button id="btnVaciar" class="btn btn-danger">VACIAR </button>
+         <button id="btnPedido" class="btn btn-primary">PEDIDO <b>$ {{importePedido}} ({{cantidadProductos}})</b> </button>
+        {{#if estaLogueado}} <button id="btnSalir" class="btn btn-warning"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> SALIR </button> {{/if}}
+         
+          
+         
+        </li>
+      </ul>
+  </div><!-- /.container-fluid -->
+</nav>
+  <aside>
+    {{> yield "aside"}}
+  </aside>
+
+  <div class="container-fluid">
+    {{> yield}}
+  </div>
+
+  <footer>
+    <div class="bs-docs-footer">
+  <br><br>
+  <p align="center"><small><b>HAZ TU PEDIDO!</b> {{contactos}}</small></p>
+ </div>
+  </footer>
+  </div>
+</template>
+
+<template name="layoutApp">
+<div class="">
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><b>YA</b>VU</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>Archivo <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+           
+           
+            <li><a style="color:#b5c52b" href="/compras"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Compras</a></li>
+             {{#if esAdmin}}
+             <li><a style="color:#48d0bd" href="/ventas"><span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> Ventas</a></li>
+             <li role="separator" class="divider"></li>
+             {{/if}}
+            <li><a style="color:#bf37af" href="/productos"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Productos</a></li>
+             <li><a style="color:#bf37af" href="/pedidos"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Pedidos</a></li>
+             
+             <li role="separator" class="divider"></li>
+             <li><a style="color:blue" href="/ordenesTrabajo"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Ordenes de Trabajo</a></li>
+             
+             <li role="separator" class="divider"></li>
+             
+            <li><a href="/stockeos">Stockeos</a></li>
+             <li role="separator" class="divider"></li>
+            <li ><a style="color:green" id="btnEntidad"  href="/entidades"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Entidades</a></li>
+            <li role="separator" class="divider"></li>
+             <li><a href="/grupos">Grupos (asignar productos)</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a  style="color:#b5c52b" href="#" id="nuevoGasto"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Compra</a></li>
+            <li><a style="color:#48d0bd" href="/nuevaVenta"><span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> Venta</a></li>
+             <li role="separator" class="divider"></li>
+            <li><a style="color:#bf37af"  href="/nuevoProducto"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>  Producto</a></li>
+             <li role="separator" class="divider"></li>
+            <li><a style="color:blue" id="nuevaOrden"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Orden de Trabajo</a></li>
+             <li role="separator" class="divider"></li>
+            <li><a href="/nuevoStock">Stockeo</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a style="color:green" href="#" id="nuevaEntidad"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Entidad</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="/productos" class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">
+            <span style="color:#bf37af" class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
+            Productos/Stock
+            </a>
+        </li>
+         <li class="dropdown">
+         <a style="color:#62bbff" href="/ordenesTrabajo"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Ordenes de Trabajo</a>
+        </li>
+        
+         {{#if esAdmin}}
+          <li class="dropdown">
+          <a href="/nuevaVenta" class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">
+            <span style="color:#48d0bd" class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>
+            Vender
+            </a>
+        </li>
+        {{/if}}
+         {{#if esAdmin}}
+         <li class="dropdown">
+          <a href="/cuentas" class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">
+            <span style="color:green" class="glyphicon glyphicon-scale" aria-hidden="true"></span>
+            Cuentas
+            </a>
+        </li>
+        {{/if}}
+         {{#if esAdmin}}
+        }
+        }
+        <li class="dropdown">
+          <a href="/centroCostos" class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">
+            <span style="" class="glyphicon glyphicon-road" aria-hidden="true"></span>
+            Centro Costos
+            </a>
+        </li>
+        {{/if}}
+        
+       
+       
+        {{#if esAdmin}}
+       <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> Informes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+             <li><a href="/informeGral">General</a></li>
+             <li><a href="/informeCuenta">Cuentas</a></li>
+             <li><a href="/informeCentroCostos">Centro Costos</a></li>
+             <li><a href="/deuda">Deuda/s</a></li>
+             <li><a href="/anual">Anual POR AREA</a></li>
+              <li><a href="/anualCentroCosto">Anual POR CENTRO DE COSTO</a></li>
+<!--             <li><a href="/informeStock">Stock</a></li> -->
+          </ul>
+        </li>
+      {{/if}}
+       
+     
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <div style="float:right;color:red;display:none" id='offline'><small style="padding:5px">offline</small> </div>
+         <div style="float:right;color:green;display:none" id='online'><small style="padding:5px">online</small> </div>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{nombreUsuario}} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+             {{#if esAdmin}}<li><a href="/datosSistema">Datos de Sistema</a></li>{{/if}}
+             {{#if esAdmin}}<li><a href="/usuarios">Usuarios</a></li>{{/if}}
+             {{#if esAdmin}}<li><a href="/importarProductos">Importar Productos .cvs</a></li>{{/if}}
+            <li><a href="javascript:salirSistema()">Salir</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+  <aside>
+    {{> yield "aside"}}
+  </aside>
+
+  <div class="container-fluid">
+    {{> yield}}
+  </div>
+
+  <footer>
+    {{> footer}}
+  </footer>
+  </div>
+</template>
+<template name='footer'>
+<div class="bs-docs-footer">
+  <br><br>
+  <p align="center"><small>Sistema desarrolado por <b>SOFTER</b> softer.com.ar <br><small>Cualquier inconveniente comunicarse al <b>2975447771</b> o enviar correo a <b>info@softer.com.ar</b></small> </small></p>
+ </div>
+</template>

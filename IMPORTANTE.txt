@@ -1,0 +1,8 @@
+IMPORTANTE
+tuve que ejectar eso en consola por qe no me podia compilar:
+
+ejectar con el mismo usuario que va a compilar:
+export TOOL_NODE_FLAGS="--max_old_space_size=4096"
+
+compilar normal 
+meteor build --server-only ../bin

@@ -1,0 +1,407 @@
+<template name="ordenesTrabajo">
+   <h1><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> ORDENES <b>DE TRABAJO</b> <small></small></h1>
+     <div class="form-inline">  {{> buscadorOrdenes}}  {{> buscadorEstado}}
+     <button type="button" id="quitarFiltroEntidad" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove-circle"></span></button>
+ </div>
+{{> reactiveTable id="tablaOrdenesTrabajo" settings=settings}}
+
+</template>
+<template name="vistaEntidadTabla">
+<span class='entidad' style='cursor:pointer;color:blue '>{{razonSocial}}</span>
+  </template>
+
+<template name="entidadAuto">
+{{razonSocial}}
+</template>
+<template name="buscadorEstado">
+  <select class="form-control estadoOrdenes">
+      <option value="">TODAS</option>
+      <option style="color:red"  value="PENDIENTE">PENDIENTE</option>
+      
+      <option value="TRABAJANDO">TRABAJANDO</option>
+      <option style="color:violet"  value="PARA ENTREGAR">PARA ENTREGAR</option>
+      <option style="color:blue"  value="CANCELADA">CANCELADA</option>
+      <option style="color:orange"  value="EN TERCEROS">EN TERCEROS</option>
+      <option style="color:#d2d43a"  value="EN ESPERA">EN ESPERA</option>
+      <option style="color:green"  value="FINALIZADA">FINALIZADAS</option>
+    </select>
+</template>
+<template name="buscadorOrdenes">
+
+ {{> inputAutocomplete class="form-control" settings=settings id="entidadFiltro"  placeholder="Entidad..."}}
+     
+     
+</template>
+<template name="finalizarOrden">
+    <div id="modalFinalizarOrden" class="modal fade"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span><b> FINALIZAR</b> <span style="text-transform: capitalize">{{this.apellido}}</span></h4>
+                </div>
+                <div class="modal-body">
+                Finalizando la Orden de trabajo, se imputara el pago y se pondra el estado a <b>FINALIZADO</b>, en caso de que tilde <i>entregado</i>
+                se pondra el estado a <b>ENTREGADO</b>. <br><br>
+                <div class="form-group">
+                   <input type="number" style="width:200px" value="{{importe}}" placeholder="$ Importe" name="importe" id="importe"  class="form-control">
+                   </div>
+                   <div class="form-group">
+                    <input type="number" style="width:200px"  placeholder="$ Importe PAGO" name="importePago" id="importePago"  class="form-control"> * a cuenta por DEFAULT
+                   </div>
+                   <div class="form-group checkbox">
+                   <label>
+      <input type="checkbox" style="width:200px" name="entregado" id="entregado" data-schema-key="entregado">
+      Entregado?
+    </label>
+    </div>
+                  <button type="submit" disabled="{{disableButtons}}" id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+
+                  
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</template>
+<template name="nuevoPagoOrden">
+    <div id="pagosOrdenModal" class="modal fade"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><b> Pago </b> ORDEN <span style="text-transform: capitalize">{{this.apellido}}</span></h4>
+                </div>
+                <div class="modal-body">
+                     {{#autoForm  collection="OrdenesTrabajo" id="nuevoPagoOrden_" doc=this scope="pagos" type="update-pushArray"}}
+                          
+                          {{> afQuickField  style="width:220px"  name='fecha' }}
+                  		  {{> afQuickField  style="width:320px"   name="idCuenta"}}
+                          {{> afQuickField  style="width:250px"  name='importe' }}
+                          {{> afQuickField  style="width:250px" value="0" name='interes' }}
+                          
+                  {{> afQuickField name='detalle'  }}
+                  <button type="submit" disabled="{{disableButtons}}" id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+
+                     
+                     {{/autoForm}}
+                  
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="nuevaAnotacioneOrden">
+    <div id="pagosOrdenModal" class="modal fade"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><b>Anotacion ORDEN</b> <span style="text-transform: capitalize">{{this.apellido}}</span></h4>
+                </div>
+                <div class="modal-body">
+                     {{#autoForm  collection="OrdenesTrabajo" id="nuevaDescripcionOrden_" doc=this scope="descripcionesReparador" type="update-pushArray"}}
+                          
+                          {{> afQuickField  style="width:220px" id="fecha"  name='fecha' }}
+                  		  {{> afQuickField  style="width:320px"   name="detalle"}}
+                        {{> afQuickField id="idEntidad"  name="idEntidad"}}
+                  <button type="submit" disabled="{{disableButtons}}" id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+
+                     
+                     {{/autoForm}}
+                  
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="pagosOrden">
+    <div id="modalPagosOrden" class="modal fade bs-example-modal" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span><b>PAGOS</b> de la ORDEN DE TRABAJO </h4>
+                </div>
+                <div class="modal-body">
+                 {{> reactiveTable id="tablaPagosOrden" settings=settingsItems}}
+                 
+                </div>
+
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="anotacionesOrden">
+    <div id="modalAnotacionesOrden" class="modal fade bs-example-modal" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-list" aria-hidden="true"></span><b>ANOTACIONES</b> de la ORDEN DE TRABAJO </h4>
+                </div>
+                <div class="modal-body">
+                {{> reactiveTable id="tablaAnotacionesOrden" settings=settings}}
+                </div>
+
+    </div>
+  </div>
+</div>
+</template>
+
+
+
+<template name="nuevoProductoOrden">
+    <div id="nuevoProductoOrdenmodal" class="modal fade"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><b> Producto/s ORDEN</b> <span style="text-transform: capitalize">{{this.apellido}}</span></h4>
+                </div>
+                <div class="modal-body">
+                     {{#autoForm  collection="OrdenesTrabajo" id="nuevoProductoOrden_" doc=this scope="productos" type="update-pushArray"}}
+                          
+                          {{> afQuickField  style="width:220px" type="datetime-local" name='fecha' }}
+                        {{> afQuickField  style="width:320px"   name="idProducto" id="idProducto"}}
+                          {{> afQuickField  style="width:320px"   name="cantidad"}}
+                            {{> afQuickField  style="width:320px" id="importe"  name="importe"}}
+                  <button type="submit" disabled="{{disableButtons}}" id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+
+                     
+                     {{/autoForm}}
+                  
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="accionesProductosOrden">
+   <div class="acciones" style="display:">
+
+     <button title="Quitar" type="button" class="delete btn  btn-xs btn-danger" aria-label="Left Align">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
+  </div>
+</template>
+
+<template name="productosOrden">
+    <div id="modalproductosOrden" class="modal fade bs-example-modal" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-list" aria-hidden="true"></span><b>PRODUCTOS</b> de la ORDEN DE TRABAJO </h4>
+                </div>
+                <div class="modal-body">
+                {{> reactiveTable id="tablaProductosOrden" settings=settings}}
+                </div>
+
+    </div>
+  </div>
+</div>
+</template>
+
+
+<template name="impresionOrden">
+<div style="float: right;"><img style="width: 200px" src="{{logo}}"></div>
+               <br><br><br><br><h1>ORDEN DE TRABAJO<b> NRO {{nroOrden}}</b></h1>
+               
+            <h4>DATOS DEL <b>SERVICIO</b></h4>
+             <table style="width: 600px" class="table table-condensed">
+              <tbody>
+                <tr><th style="width: 90px">FECHA</th><td>{{fecha}}</td></tr>
+                <tr><th>CLIENTE</th><td>{{cliente}}</td></tr>
+                <tr><th>DETALLE</th><td>{{detalle}}</td></tr>
+                <tr><th>IMPORTE</th><td>$ {{importe}}</td></tr>
+                <tr><th></th><td>Estaremos llamandolo para notificarle el resultado de su servicio al telefono<b> {{telefono}}</b></td></tr>
+              </tbody>
+            </table>
+         <p>
+                <h4>NORMAS DEL <b>SERVICIO</b></h4>
+               {{normas}}
+             </p>
+             <p>
+
+            </p>
+</template>
+<template name="imprimirOrden">
+    <div id="modalItems" class="modal fade bs-example-modal" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+       <button class="btn btn-xs btn-success" style="float: right;" id="btnImprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> IMPRIMIR</button>
+     </div>
+                <div class="modal-body">
+                  <div id="printable">
+                  <div  style="padding-top: 50px;padding-left: 40px;padding-right: 40px">
+                    {{> impresionOrden nroOrden=nroOrden logo=logo fecha=fecha detalle=detalle cliente=cliente importe=importe normas=normas telefono=telefono}}
+                  <br><br><hr>
+                  {{> impresionOrden nroOrden=nroOrden logo=logo fecha=fecha detalle=detalle cliente=cliente importe=importe normas=normas telefono=telefono}}
+                  </div>
+                  
+                </div>
+              </div>
+
+    </div>
+  </div>
+</div>
+</template>
+<template name="nuevaOrdenTrabajo">
+     <div id="modalnuevaOrdenTrabajo" class="modal fade bs-example-modal" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+                    <h1><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span> NUEVA <small>Orden de Trabajo</small> </h1>
+                </div>
+                <div class="modal-body">
+                
+   
+
+ {{#autoForm  collection="OrdenesTrabajo" id="nuevaOrdenesTrabajo_"  type="insert"}}
+<div style="float:right"> {{> afQuickField id="idCentroCosto" value=idCentroDefault name='idCentroCosto'}} </div>
+{{> afQuickField   style="width:120px" value=proximoNro name='nroOrden'}}
+{{> afQuickField id="ingreso"  style="width:220px" name='ingreso'}}
+{{> afQuickField   style="width:300px" id="idEntidad" name='idEntidad'}}
+{{> afQuickField   style="width:400px" id="descripcionCliente" name='descripcionCliente'}}
+{{> afQuickField   style="width:200px" name='entregado'}}
+{{> afQuickField   style="width:200px" name='importe'}}
+{{> afQuickField   style="width:185px" name='estado'}}
+            <button type="submit" disabled="{{disableButtons}}" id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+            
+{{/autoForm}}
+                </div>
+
+    </div>
+  </div>
+</div>
+  
+</template>
+<template name="modificarOrden">
+   <div id="modalmodificarOrden" class="modal fade bs-example-modal" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+                    <h1><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> MODIFICAR <small>Orden de Trabajo</small></h1>
+                </div>
+                <div class="modal-body">
+                
+   
+
+
+ {{#autoForm  collection="OrdenesTrabajo" id="modificaOrdenesTrabajo_" doc=this   type="update"}}
+<div style="float:right"> {{> afQuickField id="idCentroCosto" value=idCentroDefault name='idCentroCosto'}} </div>
+ {{> afQuickField   style="width:120px" name='nroOrden'}}
+{{> afQuickField  id="ingreso" style="width:220px" name='ingreso'}}
+{{> afQuickField   style="width:300px" name='idEntidad'}}
+{{> afQuickField   style="width:400px" name='descripcionCliente'}}
+{{> afQuickField   style="width:200px" name='entregado'}}
+{{> afQuickField   style="width:200px" name='importe'}}
+{{> afQuickField   style="width:185px" name='estado'}}
+            <button type="submit" disabled="{{disableButtons}}" id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+            
+{{/autoForm}}
+                </div>
+
+    </div>
+  </div>
+</div>
+
+</template>
+<template name="enviarEmailOrden">
+    <div id="modalMailVenta" class="modal fade bs-example-modal" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+                    <h4 class="modal-title"><b><span class="glyphicon glyphicon-send" aria-hidden="true"></span> ENVIAR MAIL</b> de la venta... </h4>
+                </div>
+                <div class="modal-body">
+                 <input type="text" class="form-control" value="{{emailCliente}}" style="width:400px" id="emailClienteVenta" placeholder="emailcliente@gmail.com ej.">
+                  <a class="btn btn-success" id="btnEnviarMail"><b><span class="glyphicon glyphicon-send" aria-hidden="true"></span> ENVIAR</b> MAIL</a>
+                </div>
+
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="accionesOrdenesTrabajo">
+  <div class="acciones" style="display:none">
+
+  {{#if estaPendiente}}
+  <button title="Finalizar" type="button" class="finalizar btn  btn-xs btn-success" aria-label="Left Align">  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> </button>
+  {{/if}}
+
+  {{#if muestraEngrega}}
+  <button title="Entregar" type="button" class="entregar btn  btn-xs btn-success" aria-label="Left Align">  <span class="glyphicon glyphicon-plane" aria-hidden="true"></span> </button>
+  {{/if}}
+
+  {{#if esSistemaComercio}}
+  <div class="btn-group">
+  <button title="Productos" type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{#if tieneProductos}} <span class="label label-primary">{{cantidadProductos}}</span>{{/if}}
+<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#" class="productos">Listado Productos</a></li>
+    <li><a href="#" class="nuevoProducto">Nuevo Producto</a></li>
+  </ul>
+</div>
+{{/if}}
+ {{#if esSistemaPetroleo}}
+  <div class="btn-group">
+  <button title="Entidades" type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{#if tienePersonal}} <span class="label label-primary">{{cantidadPersonal}}</span>{{/if}}
+<span class="glyphicon glyphicon-user" aria-hidden="true"></span>    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#" class="entidades">Listar Entidades</a></li>
+    <li><a href="#" class="nuevaEntidad">Nueva Entidad</a></li>
+  </ul>
+</div>
+{{/if}}
+  <div class="btn-group">
+  <button title="Pagos orden" type="button" class="btn btn-default dropdown-toggle btn-xs btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+     {{#if tienePagos}} <span class="label label-primary">{{cantidadPagos}}</span>{{/if}}
+<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#" class="pagos">Listado Pagos</a></li>
+    <li><a href="#" class="nuevoPago">Nuevo Pago</a></li>
+  </ul>
+</div>
+
+  <div class="btn-group">
+  <button title="Anotaciones" type="button" class="btn btn-default dropdown-toggle btn-xs btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{#if tieneAnotaciones}} <span class="label label-primary">{{cantidadAnotaciones}}</span>{{/if}}
+<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#" class="anotacionesOrden">Listado Anotaciones</a></li>
+    <li><a href="#" class="nuevaAnotacion">Nueva Anotacion</a></li>
+  </ul>
+</div>
+   <button title="Imprimir" type="button" class="imprimir btn  btn-xs btn-success" aria-label="Left Align">  <span class="glyphicon glyphicon-print" aria-hidden="true"></span> </button>
+ <button title="Editar" type="button" class="update btn  btn-xs btn-primary" aria-label="Left Align">  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </button>
+  
+  <button title="Quitar" type="button" class="delete btn  btn-xs btn-danger" aria-label="Left Align">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
+  </div>
+</template>
+<template name="accionesPagosOrden">
+  <div class="acciones" style="display:">
+
+     <button title="Quitar" type="button" class="delete btn  btn-xs btn-danger" aria-label="Left Align">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
+  </div>
+</template>
+<template name="accionesDescripcionOrden">
+  <div class="acciones" style="display:">
+
+     <button title="Quitar" type="button" class="delete btn  btn-xs btn-danger" aria-label="Left Align">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
+  </div>
+</template>

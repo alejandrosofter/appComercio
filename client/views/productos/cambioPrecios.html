@@ -1,0 +1,39 @@
+<template name="cambioPrecios">
+  <h1><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> CAMBIO DE PRECIOS <small> sobre productos</small></h1>
+  <div class='col-md-2'>
+    {{> inputAutocomplete settings=settingsProductos id="producto" class="form-control" autocomplete="off" style="width:100%" placeholder="!Producto o @grupo ..."}}
+     <input type="text" id="porcentaje" class="form-control" autocomplete="off" style="width:80px" placeholder="%">
+     <button  id="btnCalcula" style="width:100%;" class="btn btn-warning"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> CALCULAR</button>
+    
+  </div>
+  <div id="itemsCambio" class='col-md-5'>
+     <div style="float:right;padding-right:100px">
+    <button  title="Vaciar" style="" type="button" id="btnVaciar" class="btn  btn-xs btn-danger">  <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Vaciar listado</button>
+   </div>
+    <table class="table table-condensed">
+      <tr><th style="width:60px">Disp.</th><th>Producto</th><th style="width:120px">Precio</th></tr>
+      <tbody>
+        {{#each item in items}}
+        <tr><td >{{item.disponibilidad}}</td><td>{{item.nombreProducto}}</td><td><input class="precios" type="text" id="{{item._id}}" style="width:60px" value="{{item.precioVenta}}"></td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+   {{#if  hayItems}} <i>No hay productos para el cambio de precios...</i> {{/if}}
+    <button  id="btnAceptar" style="width:100%;" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+    
+  </div>
+  <div id="historial" class='col-md-2'>
+    <h4>CAMBIO DE PRECIOS <small>Ultimos</small></h4>
+     {{#each item in historial}}
+        {{>cambioPrecio data=item}}
+     {{/each}}
+  </div>
+
+
+</template>
+<template name="cambioPrecio">
+  <span class="">{{fecha}}  (<small style="color:blue">{{cantidad}}</small>) prod. </span>
+</template>
+<template name="gruposAuto">
+  <span class="">{{nombre}}  (<small style="color:green">{{cantidad}}</small>) </span>
+</template>

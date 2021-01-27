@@ -1,0 +1,36 @@
+<template name="barraLateral">
+  <div  class='col-md-2'>
+  <h4><span class="subTitulo glyphicon glyphicon-th-large" aria-hidden="true"> CATEGORIAS</span></h4>
+
+     <div class="vistas" id="vistacategorias">
+       
+       {{#autoForm  collection="ProductosCategorias" id="nuevoProductoCategoria_" type="insert"}}
+          {{> afQuickField label="Agregar" placeholder="Nueva Categoria" name='nombreCategoria'}}
+          {{/autoForm}}
+    {{> reactiveTable id="tablaCategorias" settings=settingsCategorias}}
+  </div>
+
+    <h4><span class="subTitulo glyphicon glyphicon-time" aria-hidden="true"> ULTIMAS</span>  <small> cargas</small></h4>
+
+  
+ 
+  <script>
+    
+    function cambiaEstadosBotones(nombreBtn)
+    {
+      var btnSeleccion=$("#btn"+nombreBtn);
+      $(".botonera").removeClass("btn-default");
+        $(".botonera").removeClass("btn-warning");
+      $(".botonera").addClass("btn-warning");
+      btnSeleccion.removeClass("btn-warning");
+      btnSeleccion.addClass("btn-default");
+      var vista=$("#vista"+nombreBtn);
+      $(".vistas").hide("slow");
+      vista.show("slow");
+      
+      
+    }
+  </script>
+        
+  </div>
+</template>

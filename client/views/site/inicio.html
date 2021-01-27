@@ -1,0 +1,40 @@
+ <template name="inicio">
+  <div style="" class="col-md-10">
+<h1>BIENVENIDO A <b>YAVU</b>! <small>Te ayudo a ordenar la economia de tu emprendimiento</small></h1>
+
+<div class="col-md-8">
+	<div style="float:right;">
+		<button title="AGREGAR" type="button" id="nuevaEntidad" class=" btn btn-primary btn-sm" aria-label="Left Align">  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ENTIDAD </button>
+		<button title="AGREGAR" type="button" id="nuevaOrden" class=" btn btn-primary btn-sm" aria-label="Left Align">  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ORDEN </button>
+    <button title="AGREGAR" type="button" id="nuevoGasto" class=" btn btn-danger btn-sm" aria-label="Left Align">  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> GASTO </button>
+	</div>
+	<h4>CON <b>QUIEN</b>?</h4>
+
+	<select id="entidadSeleccion" style="width: 100%" placeholder="Quien"></select>
+	<div style="float: right;"><h4><b>SALDO </b>{{saldoTotal}}</h4></div>
+	{{> reactiveTable id="tablaCta" settings=settingCta}}
+
+</div>
+ 
+</div>
+  </template> 
+<template name="ctaCte">
+{{> reactiveTable id="tablaCta" settings=settingCta}}
+</template>
+<template name="accionesCta">
+<div class="acciones" style="display:none">
+  <div class="btn-group">
+  <button title="Pagos" type="button" class="btn btn-default dropdown-toggle btn-xs btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+     {{#if tienePagos}} <span class="label label-primary">{{cantidadPagos}}</span>{{/if}}
+<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#" class="pagos">Listado Pagos</a></li>
+    <li><a href="#" class="nuevoPago">Nuevo Pago</a></li>
+  </ul>
+</div>
+
+  </div>
+
+</template>
+

@@ -1,0 +1,47 @@
+<template name='cargaItem'>
+    <div class="cargaItem">
+      <table style="width:100%">
+        <tr><th>CODIGO</th><th>CANT.</th><th>DETALLE</th><th>%DESC.</th><th>IMPORTE</th><th>TOTAL</th></tr>
+        <tr>
+          <td ><input class="form-control" style="width:100px" type="text" id="item_codigo"/><small><small>F9 para cargar</small></small></td>
+           <td><input class="form-control" style="width:60px" type="text" id="item_cantidad"/><small><small>F9 para cargar</small></small></td>
+          <td>
+          {{> inputAutocomplete settings=settingsProducto autocomplete="off" id="item_detalle" type="text" class="form-control" style="width:80%" placeholder="Detalle del Item"}}
+   <small><small>F9 para cargar</small></small> </td>
+          <td><input class="form-control" style="width:90px" type="text" id="item_porcentajeDescuento"/><small><small>F9 para cargar</small></small></td>
+          <td><input class="form-control" style="width:90px" type="text" id="item_importe"/><small><small>F9 para cargar</small></small></td>
+           
+          <td><input class="form-control" style="width:90px" type="HIDDEN" id="item_idProducto"/></td>
+            <td><span style="width:80px"  id="item_total"></span></td>
+          <td> 
+            <a id="botonCarga" style="width:100%" class="btn btn-success"><span class="glyphicon glyphicon-ok" ></span></a>
+           <a id="botonModifica" style="width:100%;display:none" class="btn btn-warning"><span class="glyphicon glyphicon-pencil" ></span></a>
+          </td>
+         
+        </tr>
+      </table>
+    </div>
+</template>
+<template name="itemsCompra">
+  <p class="text-right"><small> Cantidad de Items:<b>{{items.length}}</b></small></p>
+   <p class="text-right"><big><strong> IMPORTE TOTAL $ {{importeTotal}}</strong></big></p>
+
+  <table class="table table-condensed reactive-table">
+    
+   <thead> <tr> <th style="width:50px">COD.</th><th style="width:50px">CANT.</th><th>DETALLE</th><th style="width:80px">%DESC.</th><th style="width:80px">$ UNIT.</th><th style="width:100px">$ TOTAL</th> </tr></thead>
+    <tbody>
+    {{#each items}}
+        <tr class="fila"> 
+          <td class="codigo" ><span class="codigo" id="codigo_{{referencia}}" >{{codigo}}</span></td>
+          <td class="cantidad"><span class="cantidad" id="cantidad_{{referencia}}"  >{{cantidad}}</span></td>
+          <td class="detalle"><span class="detalle" id="detalle_{{referencia}}" >{{detalle}}</span></td>
+           <td class="porcentajeDescuento"><span class="porcentajeDescuento" id="porcentajeDescuento_{{referencia}}" >{{porcentajeDescuento}}</span></td>
+          <td class="importe"><span class="importe" id="importe_{{referencia}}" >{{importe}}</span></td>
+         
+          <td class="importe"><span class="importe"  >{{total}}</span></td>
+          <td style="width:60px" class="accion"><span class="glyphicon glyphicon-remove" id="quitar" style="cursor:pointer"  ></span> <span class="glyphicon glyphicon-pencil" id="modificar" style="cursor:pointer"  ></span></td>
+    </tr>
+    {{/each}}
+      </tbody>
+  </table>
+</template>

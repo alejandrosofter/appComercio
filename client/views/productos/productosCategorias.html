@@ -1,0 +1,18 @@
+<template name="productosCategorias">
+{{> reactiveTable settings=settings}}
+  <div class="row">
+     {{#autoForm  collection="ProductosCategorias" id="nuevoProductoCategoria_" type="insert"}}
+     <div class='col-md-3'>
+       <fieldset>
+          {{> afQuickField name='nombreCategoria'}}
+       </fieldset>
+       
+      </div>
+     <div class='col-md-3'>
+       <button type="submit" class="btn btn-primary">Nueva</button>
+    </div>
+   
+ {{/autoForm}}
+  </div>
+ 
+</template>

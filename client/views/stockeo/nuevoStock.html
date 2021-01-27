@@ -1,0 +1,73 @@
+<template name="tmpGrupo">
+  <span class="">{{nombre}}  (<small style="color:green">{{cantidad}}</small>) </span>
+</template>
+<template name='nuevoStock'>
+  <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> AGREGAR <small> stock   </small></h1>
+  <div class='col-md-2'>
+
+   {{ >itemStock settings=settings settingsCodigo=settingsCodigo settingsGrupo=settingsGrupo item= item}}
+  </div>
+  <div class='col-md-6'>
+       <h4 style="float:right">ITEM SELECCION   <span style="color:red">{{seleccionItems}}</span></h4>
+    {{ >items items=itemsAux}}
+
+   <button id="botonAceptar" style="width:100%;" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+     <div style="color:red" id="labError"></div> 
+   <div style="color:green;display:none" id="labDescuentos"></div> 
+  </div>
+
+</template>
+<template name="productosAuto">
+  <span class="">{{detalle}} <small>{{codigo}}</small> </span>
+</template>
+<template name="tmpProducto">
+  <span class="">{{nombreProducto}} <small style="color:blue">{{disponibilidad}}</small> <small style="color:green">{{precioVenta}}</small> </span>
+</template>
+<template name="comprasStockeo">
+  <span class=""> {{razonSocial}} - {{nroFactura}}  </span>
+</template>
+<template name='itemStock'>
+   {{> inputAutocomplete settings=settingsCodigo id="item_codigoBarras" autocomplete="off" class="form-control" style="width:100%" value=item.codigoBarras placeholder="Codigo Barras / Ref."}}
+ 
+<input type="text" id="item_cantidad" class="form-control" style="width:60px" placeholder="Cant." value="{{item.cantidad}}"/>
+  
+  <textarea type="text" id="item_detalle" class="form-control" placeholder="Nombre del Producto" value="{{item.detalle}}"></textarea>
+<input type="text" id="item_importe" class="form-control" style="width:120px" placeholder="$ Venta" value="{{item.importe}}"/>
+<br>
+  <button id="botonCarga" style="acwidth:100%" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> AGREGAR</button>
+      <button  id="botonModifica" style="width:100%;display:none" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> ACEPTAR</button>
+    
+</template>
+
+<template name='items'>
+
+  <table class="table table-condensed reactive-table">
+    
+   <thead> <tr> <th style="width:50px">CANT.</th><th>PRODUCTO</th><th style="width:140px">COD. BARRAS/REF.</th><th style="width:150px">$ VENTA</th> </tr></thead>
+    <tbody>
+    {{#each items}}
+        <tr class="fila"> 
+          <td class="cantidad"><span class="cantidad" id="cantidad_{{referencia}}"  >{{cantidad}}</span></td>
+          <td class="detalle"><span class="detalle" id="detalle_{{referencia}}" >{{detalle}}</span></td>
+          <td class="codigoBarras"><span class="codigoBarras"  >{{codigoBarras}}</span></td>
+          <td class="importe"><span class="importe" id="importe_{{referencia}}" >{{importe}}</span>
+            <small style="color:green">
+              {{#if porcentajeDescuento}}
+              <small>% {{porcentajeDescuento}} desc</small>
+              {{/if}}
+            </small>
+             <small style="color:red">
+              {{#if importeCompra}}
+              <small>$ {{importeCompra}}</small>
+              {{/if}}
+            </small>
+          
+          </td>
+          
+          <td style="width:60px" class="accion"><span class="glyphicon glyphicon-remove" id="quitar" style="cursor:pointer"  ></span> <span class="glyphicon glyphicon-pencil" id="modificar" style="cursor:pointer"  ></span></td>
+    </tr>
+    {{/each}}
+      </tbody>
+  </table>
+   
+</template>

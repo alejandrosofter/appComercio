@@ -1,0 +1,16 @@
+<template name="informeCentroCostos">
+	<div id="printable">
+<h1><b>INFORME</b> centro de costos</h1>
+<div style="width: 580px;height: 50px" class="form-inline">
+	<input style="width: 80px" id="fechaDesde" class="form-input" placeholder="Desde">
+	<input style="width: 80px" id="fechaHasta" class="form-input" placeholder="Hasta">
+	<select style="width: 200px" id="idCentroCosto"></select>
+	<button class="btn btn-sm btn-success" id="btnBuscar">Buscar</button>
+	<button class="btn btn-sm btn-primary" id="btnImprimir">Imprimir</button>
+</div>
+{{> reactiveTable id="tableinforme" settings=settings}}
+<div style="float:right;">
+<h3><b>TOTAL $</b>{{total}}</h3>
+</div>
+</div>
+</template>

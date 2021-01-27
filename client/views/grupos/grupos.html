@@ -1,0 +1,102 @@
+<template name="grupos">
+   <form class='form-inline' style="float:right">   {{>nuevoGrupo settings=settings}}</form>
+ <div id="grupos">
+  <h1><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> GRUPOS <small> agrupa los productos</small></h1>
+ 
+  <br>
+{{#each item in items}}
+  {{>grupo grupo=item}}
+  {{/each}}
+    
+</div>
+<div style="display:none;padding-top:30px" id="productos">
+ 
+    <button style="float:left" title="Volver"  type="button" class="volver btn  btn-xs btn-error">  <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> volver</button>
+  
+  <div style="float:right;padding-right:100px">
+    <button  title="Quitar" style="" type="button" class="quitar btn  btn-xs btn-danger">  <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Eliminar Grupo</button>
+    <button  type="button" id="seleccionarTodosProductosGrupo" class="btn btn-xs  btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off"> <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Seleccionar Todos/Ninguno</button>
+  </div>
+     
+ <br>
+<div style="" class='col-md-6' >
+  
+   <h1><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>  {{seleccion.nombre}}  
+   <small><small><i style="color:green">{{itemsSeleccion}} productos </i>
+     </small></small>
+   </h1>
+  <div style="float:right">
+     <button title="Quitar Seleccion" style="" type="button" disabled="disabled" class="quitarSeleccion botonera btn  btn-xs btn-danger">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Quitar Seleccion</button>
+  
+    <button title="Mover a ..." style="" disabled="disabled" type="button" id="btnMover" class="btn botonera  btn-xs btn-warning">  <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Mover a ...</button>
+    <button title="Copiar a ..." style="" disabled="disabled" type="button" id="btnCopiar" class="btn botonera  btn-xs btn-warning">  <span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Copiar a ...</button>
+    
+    
+  </div>
+  <br>
+  {{#each producto in productos}}
+  <div class="col-md-3"><label class="labelProductoGrupo"><input id="{{producto._id}}" class="checkProductoGrupo" type="checkbox"> {{producto.nombreProducto}} <small style="color:green"><i>({{producto.disponibilidad}})</i></small> </label> </div>
+  {{/each}}
+   <br>
+   <button title="AGREGAR" style="width:100%" type="button" id="btnAgregarProductos" class="btn btn-success">  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> AGREGAR PRODUCTOS</button>
+  
+  </div>
+  
+  </div>
+</template>
+<template name="agregaProductosGrupo">
+  <div class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <h3> AGREGAR PRODUCTOS A <b>{{nombreGrupo}}</b>! </h3>
+                </div>
+
+                <div class="modal-body">
+
+    {{> reactiveTable id="productosGrupo" settings=settingsTabla}}
+                 
+                    <button title="AGREGAR PRODUCTOS" style="width:100%" type="button" class="agregaProductos btn btn-primary">  <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span> AGREGA</button>
+   
+</div>
+
+           
+
+            </div>
+        </div>
+    </div>
+</template>
+<template name="grupo">
+<div class='col-md-2' >
+  <h4 style="cursor:pointer" class="grupo"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> {{grupo.nombre}} <small><i style="color:green">({{cantidadItems}})<small><small></small></small></i></small></h4>
+  {{#each hijo in hijos}} {{>grupoHijo grupo=hijo}} {{/each}}
+  
+  </div>
+</template>
+<template name="grupoHijo">
+<div style='' >
+  <span style="cursor:pointer" class="hijo_{{nivel}} grupo" ><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> {{grupo.nombre}} <small><i style="color:green">({{cantidadItems}}) <small><small></small></small></i></small></span>
+ {{#each hijo in hijos}} {{>grupoHijo grupo=hijo}} {{/each}}
+ 
+  </div>
+</template>
+<template name="itemsGrupo">
+{{#each item in items}}
+  {{>productoGrupo}}
+{{/each}}
+</template>
+<template name="productoGrupo">
+{{nombreProducto}}
+</template>
+<template name="nuevoGrupo">
+<div class="form-group"> 
+  {{> inputAutocomplete settings=settings id="nombreGrupo" class="form-control" style="width:250px" placeholder="Nombre del nuevo GRUPO"}}   
+  <a id="btnNuevo" style="100%" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> AGREGAR</a>
+</div>
+ 
+</template>
+<template name="gruposBusca">
+{{nombre}}
+</template>

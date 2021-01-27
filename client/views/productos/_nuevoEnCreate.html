@@ -1,0 +1,43 @@
+<template id="_nuevoEnCreate" name="_nuevoEnCreate">
+ <div class='col-md-6'>
+{{#autoForm collection="Productos" id="nuevoProducto_" type="insert"}}
+
+     <fieldset>
+      {{> afQuickField style="width:100%"  class="nombreProducto" name='nombreProducto'}}
+      <div class="row">
+        
+         <div class='col-md-3'>
+           {{> afQuickField name='disponibilidad'}}
+       </div>
+         <div class='col-md-3'>
+           
+          {{> afQuickField label="$ Compra" placeholder="Importe" id='precioCompra' name='precioCompra'}}
+       </div>
+        <div class='col-md-3'>
+           
+             <div class="form-inline">
+            {{> afQuickField label="% Ganancia" placeholder="% Gan." id="ganancia" style="width:90px"  name='porcentajeGanancia'}}
+            <input id="precioFinal" style="width:90px">
+          </div>
+       </div>
+        </div>
+        <div class="row" style="width:100%">
+          <div class='col-md-1'>
+            <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> 
+          </div>
+           <div class='col-md-7'>
+            {{> afQuickField style="width:100%" name='codigoBarras'}}
+          </div>
+          <div class='col-md-2'>
+            {{> afQuickField name='calidad' style="width:75px"}}
+          </div>
+       </div>
+       {{> afQuickField id="inputCategoria" type="hidden" name='categoria'}}
+       
+
+       
+    </fieldset>
+   <button type="submit" id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+      {{/autoForm}}
+  </div>
+</template>

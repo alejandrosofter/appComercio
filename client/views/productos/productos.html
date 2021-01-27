@@ -1,0 +1,34 @@
+<template name="productos">
+  <h1><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> PRODUCTOS <small>modulo principal</small></h1>
+  
+    {{> tabular id="tablaProductosGral" table=TabularTables.Productos class="table table-condensed"}} 
+
+
+</template>
+<template name="accionesProductos">
+  <div class="acciones" style="display:none">
+    <div class="btn-group">
+  <button title="Imagenes" type="button" class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="label label-primary">{{cantidadImagenes}}</span>
+     
+<span class="glyphicon glyphicon-file" ></span>    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#" class="archivos">Listado Archivos</a></li>
+    <li><a href="#" class="nuevoArchivo">Nuevo Archivos</a></li>
+  </ul>
+</div>
+    <button title="Historial" type="button" class="historial btn  btn-xs btn-primary" aria-label="Left Align">  <span class="glyphicon glyphicon-time" aria-hidden="true"></span> </button>
+    <button title="Modificar" type="button" class="update btn  btn-xs btn-primary" aria-label="Left Align">  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </button>
+      <button title="Quitar" type="button" class="delete btn  btn-xs btn-danger" aria-label="Left Align">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
+      
+  </div>
+</template>
+<template name="filtroNombre">
+    <div class="input-group">
+      <span class="input-group-addon">
+        <span>Nombre</span>
+      </span>
+      <input class="form-control" type="text"/>
+    </div>
+</template>
